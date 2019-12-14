@@ -1,6 +1,7 @@
 import pdb
+import numpy
 first_seat = ['a','b','c','d']
-cabin_seat = first_seat + ['e','f']
+econ_seat = first_seat + ['e','f']
 
 #create Seat class
 class Seat():
@@ -21,25 +22,34 @@ class Seat():
 class Plane():
    '''
    This is the Plane class
-   attributes: plane (list of Seat() class objects)
+   attributes: seats (dictionary of Seat() class objects)
+               first_prices is list of prices
+               econ_prices is list of prices
    methods: reserve_reserve
    '''
 
    def __init__(self):
-      self.plane = {}
+      self.seats = {}
+      self.first_prices = []
+      self.econ_prices = []
       # generate first class rows
       for row in range(1,5):
          for seat in first_seat:
-            self.plane.update({str(row)+seat:Seat(row,seat)})
-      # generate cabin rows
+            self.seats.update({str(row)+seat:Seat(row,seat)})
+            self.first_prices.append(numpy.random.normal(300,10,None))
+      # generate economy rows
       for row in range(5,31):
-         for seat in cabin_seat:
-            self.plane.update({str(row)+seat:Seat(row,seat)})
+         for seat in econ_seat:
+            self.seats.update({str(row)+seat:Seat(row,seat)})
+            self.econ_prices.append(numpy.random.normal(100,10,None))
+      # sort
+      self.first_prices.sort()
+      self.econ_prices.sort()
 
    def __str__(self):
       plane_str = 'The plane is:'
       plane_row = 0
-      for key,seat in self.plane.items():
+      for key,seat in self.seats.items():
          if seat.row == plane_row:
             plane_str += '|{0:9}'.format(seat.__str__())
          else:
@@ -48,13 +58,17 @@ class Plane():
       return plane_str
 
    def reserve_seat(self,row,seat):
-      self.plane[str(row)+seat].status = "R"
+      self.seats[str(row)+seat].status = "R"
+
+   def cancel_seat(self,row,seat):
+      self.seats[str(row)+seat].status = "A"
 
 def reserve_input(plane):
    '''
    This function takes the input from the user on what seat
    they would like to reserve. It continues to ask the user
-   which seat until they pick an available seat.
+   which seat until they pick an available seat. It returns
+   the key of the seat they would like to reserve.
    '''
    while True:
       try:
@@ -63,12 +77,21 @@ def reserve_input(plane):
          print("Please enter a string value")
          continue
       else:
-         if plane.plane[seat_key].status == "R":
+         if plane.seats[seat_key].status == "R":
             print("Seat not available. Please select another seat")
             continue
          else:
-            plane.reserve_seat(plane.plane[seat_key].row,plane.plane[seat_key].seat)
-            break
+            return seat_key
+            #break
+
+# create flight schedule (dictionary of flights -> time = key, plane instance = value)
+# display cheapest economy and first class fares for each flight
+# prompt user to select flight and class
+# display seats available
+# prompt user to select seat
+# ask user to confirm purchase
+# book seat and break
+
 
 plane_test = Plane()
 #pdb.set_trace()
