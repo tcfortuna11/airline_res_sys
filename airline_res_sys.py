@@ -78,13 +78,14 @@ def reserve_input(plane):
          continue
       else:
          if plane.seats[seat_key].status == "R":
-            print("Seat not available. Please select another seat")
+            print("Seat not available. Please select another seat");
             continue
          else:
             return seat_key
             #break
 
-# create flight schedule (dictionary of flights -> time = key, plane instance = value)
+# create flight schedule (dictionary of flights -> time; = key, plane instance = value)
+flight_schedule = {'0600':Plane(),'0900':Plane(),'1200':Plane(),'1900':Plane()}
 # display cheapest economy and first class fares for each flight
 # prompt user to select flight and class
 # display seats available
@@ -93,10 +94,14 @@ def reserve_input(plane):
 # book seat and break
 
 
-plane_test = Plane()
+#plane_test = Plane()
 #pdb.set_trace()
-print(plane_test)
-plane_test.reserve_seat(1,'a')
-print(plane_test)
-reserve_input(plane_test)
-print(plane_test)
+print(flight_schedule['0600'])
+print(flight_schedule['0900'])
+print(flight_schedule['1200'])
+print(flight_schedule['1900'])
+#plane_test.reserve_seat(1,'a')
+#plane_test.reserve_seat(1,'a')
+#print(plane_test)
+#reserve_input(plane_test)
+#print(plane_test)
