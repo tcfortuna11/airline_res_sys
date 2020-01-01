@@ -36,12 +36,12 @@ class Plane():
       for row in range(1,5):
          for seat in first_seat:
             self.seats.update({str(row)+seat:Seat(row,seat)})
-            self.first_prices.append(numpy.random.normal(300,10,None))
+            self.first_prices.append(round(numpy.random.normal(300,10,None),2))
       # generate economy rows
       for row in range(5,31):
          for seat in econ_seat:
             self.seats.update({str(row)+seat:Seat(row,seat)})
-            self.econ_prices.append(numpy.random.normal(100,10,None))
+            self.econ_prices.append(round(numpy.random.normal(100,10,None),2))
       # sort
       self.first_prices.sort()
       self.econ_prices.sort()
@@ -91,9 +91,10 @@ flight_times = ['0600','0900','1200','1900']
 for time in flight_times:
     print('Flight {} prices:'.format(time))
     print('first class:') 
-    print('{0:4}'.format(flight_schedule[time].first_prices[0]))
+    print('{0:>8.2f}'.format(flight_schedule[time].first_prices[0])) #right align >, 2 decimals .2f
     print('econ  class:')
-    print('{0:4}\n'.format(flight_schedule[time].econ_prices[0]))
+    print('{0:>8.2f}\n'.format(flight_schedule[time].econ_prices[0])) #right align >, 2 decimals .2f
+
 # prompt user to select flight and class
 # display seats available
 # prompt user to select seat
