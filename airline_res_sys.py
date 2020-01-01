@@ -87,6 +87,13 @@ def reserve_input(plane):
 # create flight schedule (dictionary of flights -> time; = key, plane instance = value)
 flight_schedule = {'0600':Plane(),'0900':Plane(),'1200':Plane(),'1900':Plane()}
 # display cheapest economy and first class fares for each flight
+flight_times = ['0600','0900','1200','1900']
+for time in flight_times:
+    print('Flight {} prices:'.format(time))
+    print('first class:') 
+    print('{0:4}'.format(flight_schedule[time].first_prices[0]))
+    print('econ  class:')
+    print('{0:4}\n'.format(flight_schedule[time].econ_prices[0]))
 # prompt user to select flight and class
 # display seats available
 # prompt user to select seat
@@ -96,10 +103,10 @@ flight_schedule = {'0600':Plane(),'0900':Plane(),'1200':Plane(),'1900':Plane()}
 
 #plane_test = Plane()
 #pdb.set_trace()
-print(flight_schedule['0600'])
-print(flight_schedule['0900'])
-print(flight_schedule['1200'])
-print(flight_schedule['1900'])
+#print(flight_schedule['0600'])
+#print(flight_schedule['0900'])
+#print(flight_schedule['1200'])
+#print(flight_schedule['1900'])
 #plane_test.reserve_seat(1,'a')
 #plane_test.reserve_seat(1,'a')
 #print(plane_test)
