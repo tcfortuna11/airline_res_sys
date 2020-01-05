@@ -59,6 +59,10 @@ class Plane():
 
    def reserve_seat(self,row,seat):
       self.seats[str(row)+seat].status = "R"
+      if row <= 4:
+         self.first_prices.pop(0)
+      else:
+         self.econ_prices.pop(0)
 
    def cancel_seat(self,row,seat):
       self.seats[str(row)+seat].status = "A"
