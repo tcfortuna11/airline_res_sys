@@ -67,6 +67,33 @@ class Plane():
    def cancel_seat(self,row,seat):
       self.seats[str(row)+seat].status = "A"
 
+   def seats_avail(self):
+      for key,seat in self.seats.items():
+         if seat.status == "R":
+            return False
+      return True
+
+def flight_input(flight_schedule):
+   '''
+   This function takes the input from the user on what flight
+   they would like. It continues to ask the user
+   which flight until they pick an available flight. It returns
+   the key of the flight they would like.
+   '''
+   while True:
+      try:
+         flight_key = str(input("What flight would you like to reserve? (ex. 0600 or 0900)"))
+      except:
+         print("Please enter a string value")
+         continue
+      else:
+         if not(flight_schedule[flight_key].seats_avail):
+            print("No seats available on this flight. Please select another flight");
+            continue
+         else:
+            return flight_key
+            #break
+
 def reserve_input(plane):
    '''
    This function takes the input from the user on what seat
@@ -76,7 +103,9 @@ def reserve_input(plane):
    '''
    while True:
       try:
-         seat_key = str(input("What seat would you like to sit in? (ex. 1a or 30b)"))
+         row = int(input("What row would you like to sit in?\n"))
+         seat = str(input("What seat would you like to sit in?\n"))
+         seat_key = str(row)+seat
       except:
          print("Please enter a string value")
          continue
@@ -85,7 +114,27 @@ def reserve_input(plane):
             print("Seat not available. Please select another seat");
             continue
          else:
-            return seat_key
+            return row,seat
+            #break
+
+def confirm_reservation(row,seat):
+   '''
+   This function takes the input from the user to confirm
+   the seat they would like to reserve. It continues to ask
+   the user which to confirm until they enter y or n. It
+   returns a boolean.
+   '''
+   while True:
+      try:
+         confirm_input = str(input("Confirm you would like to make the reservation? y/n\n"))
+      except:
+         print("Please enter a string value")
+         continue
+      else:
+         if confirm_input.lower() == "y":
+            return True
+         else:
+            return False
             #break
 
 # create flight schedule (dictionary of flights -> time; = key, plane instance = value)
@@ -99,11 +148,21 @@ for time in flight_times:
     print('econ  class:')
     print('{0:>8.2f}\n'.format(flight_schedule[time].econ_prices[0])) #right align >, 2 decimals .2f
 
-# prompt user to select flight and class
-# display seats available
-# prompt user to select seat
-# ask user to confirm purchase
-# book seat and break
+while True:
+   # prompt user to select flight
+   flight_key = flight_input(flight_schedule)
+   print(flight_key)
+   # display seats available
+   print(flight_schedule[flight_key])
+   # prompt user to select seat
+   row,seat = reserve_input(flight_schedule[flight_key])
+   # ask user to confirm purchase
+   if confirm_reservation(row,seat):
+      # book seat and break
+      flight_schedule[flight_key].reserve_seat(row,seat)
+      break
+   else:
+      continue
 
 
 #plane_test = Plane()
